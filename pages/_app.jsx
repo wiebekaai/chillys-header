@@ -1,6 +1,14 @@
-import "../styles/globals.css";
+/* eslint-disable react/jsx-props-no-spreading */
+import { createGlobalStyle } from "styled-components";
+import reset from "../styles/reset";
 
-// eslint-disable-next-line react/jsx-props-no-spreading
-const MyApp = ({ Component, pageProps }) => <Component {...pageProps} />;
+const GlobalStyle = createGlobalStyle`${reset}`;
+
+const MyApp = ({ Component, pageProps }) => (
+  <>
+    <GlobalStyle />
+    <Component {...pageProps} />
+  </>
+);
 
 export default MyApp;
