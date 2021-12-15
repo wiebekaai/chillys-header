@@ -41,6 +41,13 @@ const reset = css`
     font: inherit;
   }
 
+  button {
+    border: none;
+    background: none;
+    user-select: none;
+    cursor: pointer;
+  }
+
   p,
   h1,
   h2,

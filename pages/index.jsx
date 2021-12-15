@@ -1,24 +1,15 @@
-import { useState } from "react";
 import styled from "styled-components";
-import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
+import Header from "../components/header";
 
 const BigContent = styled.main`
   height: 3000px;
+  background: darkgoldenrod;
 `;
 
 export default function Home() {
-  const [shouldHideHeader, setShouldHideHeader] = useState(false);
-
-  useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
-    const isScrolledDown = currentScrollTop > previousScrollTop;
-    const isMinimumScrolled = currentScrollTop > 3;
-    setShouldHideHeader(isScrolledDown && isMinimumScrolled);
-  });
-
-  console.log({ shouldHideHeader });
-
   return (
     <>
+      <Header />
       <BigContent />
     </>
   );
