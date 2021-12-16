@@ -46,6 +46,8 @@ const Wrapper = styled.header`
 `;
 
 const Gradient = styled.div`
+  --trans-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
   position: absolute;
   top: 0;
   left: 0;
@@ -54,11 +56,12 @@ const Gradient = styled.div`
   background-image: linear-gradient(rgba(0, 0, 0, 0.45), transparent);
   pointer-events: none;
   z-index: -1;
-  will-change: opacity;
-  --trans-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  transition: opacity var(--trans-smooth), visibility var(--trans-smooth);
+
   opacity: ${({ show }) => (show ? 1 : 0)};
   visibility: ${({ show }) => (show ? "visible" : "hidden")};
+
+  will-change: opacity;
+  transition: opacity var(--trans-smooth), visibility var(--trans-smooth);
 `;
 
 const Search = styled(SearchIcon)`
