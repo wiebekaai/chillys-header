@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { throttle } from "underscore";
 
-const THROTTLE_WAIT = 500;
+const THROTTLE_WAIT = 300;
 
 const useDocumentScrollThrottled = (callback) => {
   const [, setScrollPosition] = useState(0);
