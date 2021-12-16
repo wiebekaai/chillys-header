@@ -1,12 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import styled from "styled-components";
 
-const CircleButton = ({ props, children }) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  <Wrapper {...props}>
-    {children}
-    <Circle />
-  </Wrapper>
-);
+const CircleButton = (props) => {
+  const { children } = props;
+
+  return (
+    <Wrapper {...props}>
+      {children}
+      <Circle />
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.button`
   position: relative;

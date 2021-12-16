@@ -1,8 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
+import { QUERIES } from "../styles/constants";
 import CircleButton from "./circle-button";
-import { LogoText as LogoTextIcon, Search as SearchIcon } from "./icons";
+import {
+  LogoIcon as LogoIconBase,
+  LogoText as LogoTextIcon,
+  Search as SearchIcon,
+} from "./icons";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,33 +21,56 @@ const Header = () => {
   return (
     <Wrapper>
       <Gradient show={!isScrolled} />
-      <Left>
-        <HamburgerButton type="button">M</HamburgerButton>
-      </Left>
-      <Logo href="/">
-        <LogoText />
-      </Logo>
-      <Right>
-        <CircleButton>
-          <Search />
-        </CircleButton>
-        <CircleButton>
-          <CartNumber>0</CartNumber>
-        </CircleButton>
-      </Right>
+      <TopBanner />
+      <Content>
+        <Left>
+          <DesktopNav>
+            <DesktopNavLink href="/">Shop</DesktopNavLink>
+            <DesktopNavLink href="/">Mission</DesktopNavLink>
+            <DesktopNavLink href="/">Co-brand</DesktopNavLink>
+          </DesktopNav>
+          <HamburgerButton type="button">M</HamburgerButton>
+        </Left>
+        <Logo href="/">
+          <LogoIcon />
+          <LogoText />
+        </Logo>
+        <Right>
+          <DesktopNav>
+            <DesktopNavLink href="/">Refer a friend</DesktopNavLink>
+          </DesktopNav>
+          <DesktopSearchButton>
+            <DesktopSearch />
+          </DesktopSearchButton>
+          <SearchButton>
+            <Search />
+          </SearchButton>
+          <CircleButton>
+            <CartNumber>0</CartNumber>
+          </CircleButton>
+        </Right>
+      </Content>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.header`
   position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  padding: 30px;
-  color: white;
   isolation: isolate;
+`;
+
+const Content = styled.div`
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 30px;
+  max-width: 1800px;
+  margin: 0 auto;
+
+  @media ${QUERIES.tabledAndUp} {
+    padding: 40px 5% 30px;
+  }
 `;
 
 const Gradient = styled.div`
@@ -62,6 +90,11 @@ const Gradient = styled.div`
 
   will-change: opacity;
   transition: opacity var(--trans-smooth), visibility var(--trans-smooth);
+`;
+
+const TopBanner = styled.div`
+  height: 33px;
+  background: linear-gradient(150deg, #e85d60, #216dfb);
 `;
 
 const Search = styled(SearchIcon)`
@@ -84,8 +117,20 @@ const Left = styled.div`
 const Right = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   flex-basis: 50%;
   gap: 9px;
+
+  @media ${QUERIES.tabledAndUp} {
+    gap: 12px;
+    padding-right: 15px;
+  }
+`;
+
+const SearchButton = styled(CircleButton)`
+  @media ${QUERIES.tabledAndUp} {
+    display: none;
+  }
 `;
 
 const Logo = styled.a`
@@ -93,6 +138,7 @@ const Logo = styled.a`
   align-items: center;
   flex-shrink: 0;
   color: inherit;
+  gap: 6px;
 `;
 
 const LogoText = styled(LogoTextIcon)`
@@ -106,6 +152,56 @@ const HamburgerButton = styled.button`
   width: 40px;
   height: 40px;
   filter: drop-shadow(4px 4px 10px hsl(0deg 0% 0% / 0.15));
+
+  @media ${QUERIES.tabledAndUp} {
+    display: none;
+  }
+`;
+
+const LogoIcon = styled(LogoIconBase)`
+  display: none;
+  width: 21px;
+  height: 34px;
+
+  @media ${QUERIES.tabledAndUp} {
+    display: inline-block;
+  }
+`;
+
+const DesktopNav = styled.nav`
+  display: none;
+  align-items: center;
+
+  @media ${QUERIES.tabledAndUp} {
+    display: flex;
+  }
+`;
+
+const DesktopNavLink = styled.a`
+  text-transform: uppercase;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: 0.05em;
+  color: inherit;
+  text-decoration: none;
+`;
+
+const DesktopSearch = styled(SearchIcon)`
+  width: 18px;
+  height: 18px;
+`;
+
+const DesktopSearchButton = styled.button`
+  display: none;
+  color: inherit;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+
+  @media ${QUERIES.tabledAndUp} {
+    display: flex;
+  }
 `;
 
 export default Header;
