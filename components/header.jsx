@@ -1,19 +1,21 @@
 import { useState } from "react";
 import styled from "styled-components";
 import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
+import CircleButton from "./circle-button";
 import { LogoText as LogoTextIcon, Search as SearchIcon } from "./icons";
 
 const Header = () => {
-  const [show, setShow] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
     const isScrolledDown = currentScrollTop > previousScrollTop;
     const isMinimumScrolled = currentScrollTop > 3;
-    setShow(isScrolledDown && isMinimumScrolled);
+    setIsScrolled(isMinimumScrolled);
   });
 
   return (
     <Wrapper>
+      <Gradient show={!isScrolled} />
       <Left>
         <HamburgerButton type="button">M</HamburgerButton>
       </Left>
@@ -23,11 +25,9 @@ const Header = () => {
       <Right>
         <CircleButton>
           <Search />
-          <Circle />
         </CircleButton>
         <CircleButton>
           <CartNumber>0</CartNumber>
-          <Circle />
         </CircleButton>
       </Right>
     </Wrapper>
@@ -42,27 +42,23 @@ const Wrapper = styled.header`
   width: 100%;
   padding: 30px;
   color: white;
+  isolation: isolate;
 `;
 
-const CircleButton = styled.button`
-  position: relative;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: inherit;
-`;
-
-const Circle = styled.span`
+const Gradient = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
-  border-radius: 50%;
-  background-color: currentColor;
-  opacity: 0.1;
+  width: 100%;
+  height: 200%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.45), transparent);
+  pointer-events: none;
+  z-index: -1;
+  will-change: opacity;
+  --trans-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--trans-smooth), visibility var(--trans-smooth);
+  opacity: ${({ show }) => (show ? 1 : 0)};
+  visibility: ${({ show }) => (show ? "visible" : "hidden")};
 `;
 
 const Search = styled(SearchIcon)`
