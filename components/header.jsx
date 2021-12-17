@@ -1,4 +1,5 @@
-import { useState } from "react";
+import Link from "next/link";
+import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
 import { QUERIES } from "../styles/constants";
@@ -11,12 +12,29 @@ import {
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState(null);
 
   useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
     const isScrolledDown = currentScrollTop > previousScrollTop;
     const isMinimumScrolled = currentScrollTop > 3;
     setIsScrolled(isMinimumScrolled);
   });
+
+  const mouseEnter = setHoveredLink;
+  const mouseLeave = () => setHoveredLink(null);
+
+  const renderLink = ({ href, label }) => (
+    <Link href={href} passHref>
+      <DesktopNavLink
+        onMouseLeave={mouseLeave}
+        onMouseEnter={() => mouseEnter(label)}
+        hover={hoveredLink !== null}
+        hoverActive={hoveredLink === label}
+      >
+        {label}
+      </DesktopNavLink>
+    </Link>
+  );
 
   return (
     <Wrapper>
@@ -25,9 +43,11 @@ const Header = () => {
       <Content>
         <Left>
           <DesktopNav>
-            <DesktopNavLink href="/">Shop</DesktopNavLink>
-            <DesktopNavLink href="/">Mission</DesktopNavLink>
-            <DesktopNavLink href="/">Co-brand</DesktopNavLink>
+            {[
+              { href: "/", label: "Shop" },
+              { href: "/", label: "Mission" },
+              { href: "/", label: "Co-brand" },
+            ].map(renderLink)}
           </DesktopNav>
           <HamburgerButton type="button">M</HamburgerButton>
         </Left>
@@ -37,7 +57,7 @@ const Header = () => {
         </Logo>
         <Right>
           <DesktopNav>
-            <DesktopNavLink href="/">Refer a friend</DesktopNavLink>
+            {[{ href: "/", label: "Refer a friend" }].map(renderLink)}
           </DesktopNav>
           <DesktopSearchButton>
             <DesktopSearch />
@@ -185,6 +205,11 @@ const DesktopNavLink = styled.a`
   letter-spacing: 0.05em;
   color: inherit;
   text-decoration: none;
+
+  opacity: ${({ hover, hoverActive }) => (hover && !hoverActive ? 0.3 : 1)};
+
+  will-change: opacity;
+  transition: opacity 0.25s ease;
 `;
 
 const DesktopSearch = styled(SearchIcon)`
