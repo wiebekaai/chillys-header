@@ -10,10 +10,26 @@ import {
   Search as SearchIcon,
 } from "./icons";
 
+const THEMES = {
+  DEFAULT: {
+    background: "none",
+    color: "white",
+    shiftDown: true,
+  },
+  SCROLLED: {
+    background: "#fff",
+    color: "#000",
+    borderBottom: true,
+  },
+};
+
 const Header = () => {
   const [isScrolledPastMinimum, setIsScrolledPastMinimum] = useState(false);
   const [isScrolledUp, setIsScrolledUp] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
+
+  const isScrolled = isScrolledPastMinimum && isScrolledUp;
+  const theme = isScrolled ? THEMES.SCROLLED : THEMES.DEFAULT;
 
   useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
     setIsScrolledPastMinimum(currentScrollTop > 3);
@@ -40,18 +56,7 @@ const Header = () => {
     <Wrapper>
       <Gradient show={!isScrolledPastMinimum} />
       <TopBanner />
-      <Content
-        show={!isScrolledPastMinimum || isScrolledUp}
-        theme={
-          isScrolledPastMinimum && isScrolledUp
-            ? {
-                background: "#fff",
-                color: "#000",
-                borderBottom: true,
-              }
-            : { shiftUp: true }
-        }
-      >
+      <Content show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
         <Left>
           <DesktopNav>
             {[
@@ -96,21 +101,20 @@ const Wrapper = styled.header`
 const Content = styled.div`
   display: flex;
   align-items: center;
-  color: ${({ theme: { color = "white" } }) => color};
-  padding: 30px;
+  color: ${({ theme: { color } }) => color};
+  padding: 20px 30px;
   max-width: 1800px;
   margin: 0 auto;
-  transform: ${({ show, theme: { shiftUp } }) => {
+  transform: ${({ show, theme: { shiftDown } }) => {
     if (!show) return "translateY(-100%)";
 
-    if (shiftUp) return "translateY(15px)";
+    if (shiftDown) return "translateY(15px)";
 
     return "translateY(0%)";
   }};
 
   z-index: 10;
-  background-color: ${({ theme: { background = "transparent" } }) =>
-    background};
+  background-color: ${({ theme: { background } }) => background};
 
   /** Transitioned border-bottom */
   &:after {
