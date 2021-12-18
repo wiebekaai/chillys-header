@@ -6,6 +6,8 @@ const global = css`
       avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto,
       noto, arial, sans-serif;
 
+    --trans-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
     font-family: var(--font-modern-era);
   }
 `;

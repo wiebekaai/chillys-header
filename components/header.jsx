@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
 import { QUERIES } from "../styles/constants";
@@ -11,20 +11,20 @@ import {
 } from "./icons";
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolledPastMinimum, setIsScrolledPastMinimum] = useState(false);
+  const [isScrolledUp, setIsScrolledUp] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
 
   useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
-    const isScrolledDown = currentScrollTop > previousScrollTop;
-    const isMinimumScrolled = currentScrollTop > 3;
-    setIsScrolled(isMinimumScrolled);
+    setIsScrolledPastMinimum(currentScrollTop > 3);
+    setIsScrolledUp(currentScrollTop < previousScrollTop);
   });
 
   const mouseEnter = setHoveredLink;
   const mouseLeave = () => setHoveredLink(null);
 
   const renderLink = ({ href, label }) => (
-    <Link href={href} passHref>
+    <Link key={label} href={href} passHref>
       <DesktopNavLink
         onMouseLeave={mouseLeave}
         onMouseEnter={() => mouseEnter(label)}
@@ -38,9 +38,20 @@ const Header = () => {
 
   return (
     <Wrapper>
-      <Gradient show={!isScrolled} />
+      <Gradient show={!isScrolledPastMinimum} />
       <TopBanner />
-      <Content>
+      <Content
+        show={!isScrolledPastMinimum || isScrolledUp}
+        theme={
+          isScrolledPastMinimum && isScrolledUp
+            ? {
+                background: "#fff",
+                color: "#000",
+                borderBottom: true,
+              }
+            : { shiftUp: true }
+        }
+      >
         <Left>
           <DesktopNav>
             {[
@@ -51,10 +62,12 @@ const Header = () => {
           </DesktopNav>
           <HamburgerButton type="button">M</HamburgerButton>
         </Left>
-        <Logo href="/">
-          <LogoIcon />
-          <LogoText />
-        </Logo>
+        <Link href="/" passHref>
+          <Logo>
+            <LogoIcon />
+            <LogoText />
+          </Logo>
+        </Link>
         <Right>
           <DesktopNav>
             {[{ href: "/", label: "Refer a friend" }].map(renderLink)}
@@ -83,19 +96,45 @@ const Wrapper = styled.header`
 const Content = styled.div`
   display: flex;
   align-items: center;
-  color: white;
+  color: ${({ theme: { color = "white" } }) => color};
   padding: 30px;
   max-width: 1800px;
   margin: 0 auto;
+  transform: ${({ show, theme: { shiftUp } }) => {
+    if (!show) return "translateY(-100%)";
+
+    if (shiftUp) return "translateY(15px)";
+
+    return "translateY(0%)";
+  }};
+
+  z-index: 10;
+  background-color: ${({ theme: { background = "transparent" } }) =>
+    background};
+
+  /** Transitioned border-bottom */
+  &:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    opacity: ${({ theme: { borderBottom } }) => (borderBottom ? "0.1" : "0")};
+    background-color: currentColor;
+    transition: opacity 0.25s ease;
+  }
+
+  will-change: transform;
+  transition: transform var(--trans-smooth), background-color 0.25s ease,
+    color 0.25s ease;
 
   @media ${QUERIES.tabledAndUp} {
-    padding: 40px 5% 30px;
+    padding: 30px 5%;
   }
 `;
 
 const Gradient = styled.div`
-  --trans-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
   position: absolute;
   top: 0;
   left: 0;
@@ -103,7 +142,7 @@ const Gradient = styled.div`
   height: 200%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.45), transparent);
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
 
   opacity: ${({ show }) => (show ? 1 : 0)};
   visibility: ${({ show }) => (show ? "visible" : "hidden")};
@@ -113,8 +152,10 @@ const Gradient = styled.div`
 `;
 
 const TopBanner = styled.div`
+  position: relative;
   height: 33px;
   background: linear-gradient(150deg, #e85d60, #216dfb);
+  z-index: 20;
 `;
 
 const Search = styled(SearchIcon)`
