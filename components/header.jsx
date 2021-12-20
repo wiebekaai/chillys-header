@@ -126,12 +126,12 @@ const Content = styled.div`
     height: 1px;
     opacity: ${({ theme: { borderBottom } }) => (borderBottom ? "0.1" : "0")};
     background-color: currentColor;
-    transition: opacity 0.25s ease;
+    transition: opacity var(--transition);
   }
 
   will-change: transform;
-  transition: transform var(--trans-smooth), background-color 0.25s ease,
-    color 0.25s ease;
+  transition: transform var(--transition-smooth),
+    background-color var(--transition), color var(--transition);
 
   @media ${QUERIES.tabledAndUp} {
     padding: 30px 5%;
@@ -152,7 +152,8 @@ const Gradient = styled.div`
   visibility: ${({ show }) => (show ? "visible" : "hidden")};
 
   will-change: opacity;
-  transition: opacity var(--trans-smooth), visibility var(--trans-smooth);
+  transition: opacity var(--transition-smooth),
+    visibility var(--transition-smooth);
 `;
 
 const TopBanner = styled.div`
@@ -254,7 +255,7 @@ const DesktopNavLink = styled.a`
   opacity: ${({ hover, hoverActive }) => (hover && !hoverActive ? 0.3 : 1)};
 
   will-change: opacity;
-  transition: opacity 0.25s ease;
+  transition: opacity var(--transition);
 `;
 
 const DesktopSearch = styled(SearchIcon)`
