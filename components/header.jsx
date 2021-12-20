@@ -4,6 +4,7 @@ import styled from "styled-components";
 import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
 import { QUERIES } from "../styles/constants";
 import CircleButton from "./circle-button";
+import HamburgerButtonOriginal from "./hamburger-button";
 import {
   LogoIcon as LogoIconBase,
   LogoText as LogoTextIcon,
@@ -56,38 +57,40 @@ const Header = () => {
     <Wrapper>
       <Gradient show={!isScrolledPastMinimum} />
       <TopBanner />
-      <Content show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
-        <Left>
-          <DesktopNav>
-            {[
-              { href: "/", label: "Shop" },
-              { href: "/", label: "Mission" },
-              { href: "/", label: "Co-brand" },
-            ].map(renderLink)}
-          </DesktopNav>
-          <HamburgerButton type="button">M</HamburgerButton>
-        </Left>
-        <Link href="/" passHref>
-          <Logo>
-            <LogoIcon />
-            <LogoText />
-          </Logo>
-        </Link>
-        <Right>
-          <DesktopNav>
-            {[{ href: "/", label: "Refer a friend" }].map(renderLink)}
-          </DesktopNav>
-          <DesktopSearchButton>
-            <DesktopSearch />
-          </DesktopSearchButton>
-          <SearchButton>
-            <Search />
-          </SearchButton>
-          <CircleButton>
-            <CartNumber>0</CartNumber>
-          </CircleButton>
-        </Right>
-      </Content>
+      <Main show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
+        <Content>
+          <Left>
+            <DesktopNav>
+              {[
+                { href: "/", label: "Shop" },
+                { href: "/", label: "Mission" },
+                { href: "/", label: "Co-brand" },
+              ].map(renderLink)}
+            </DesktopNav>
+            <HamburgerButton />
+          </Left>
+          <Link href="/" passHref>
+            <Logo>
+              <LogoIcon />
+              <LogoText />
+            </Logo>
+          </Link>
+          <Right>
+            <DesktopNav>
+              {[{ href: "/", label: "Refer a friend" }].map(renderLink)}
+            </DesktopNav>
+            <DesktopSearchButton>
+              <DesktopSearch />
+            </DesktopSearchButton>
+            <SearchButton>
+              <Search />
+            </SearchButton>
+            <CircleButton>
+              <CartNumber>0</CartNumber>
+            </CircleButton>
+          </Right>
+        </Content>
+      </Main>
     </Wrapper>
   );
 };
@@ -98,13 +101,7 @@ const Wrapper = styled.header`
   isolation: isolate;
 `;
 
-const Content = styled.div`
-  display: flex;
-  align-items: center;
-  color: ${({ theme: { color } }) => color};
-  padding: 20px 30px;
-  max-width: 1800px;
-  margin: 0 auto;
+const Main = styled.div`
   transform: ${({ show, theme: { shiftDown } }) => {
     if (!show) return "translateY(-100%)";
 
@@ -112,9 +109,6 @@ const Content = styled.div`
 
     return "translateY(0%)";
   }};
-
-  z-index: 10;
-  background-color: ${({ theme: { background } }) => background};
 
   /** Transitioned border-bottom */
   &:after {
@@ -129,9 +123,20 @@ const Content = styled.div`
     transition: opacity var(--transition);
   }
 
+  z-index: 10;
+  background-color: ${({ theme: { background } }) => background};
   will-change: transform;
   transition: transform var(--transition-smooth),
     background-color var(--transition), color var(--transition);
+  color: ${({ theme: { color } }) => color};
+`;
+
+const Content = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  max-width: 1800px;
+  margin: 0 auto;
 
   @media ${QUERIES.tabledAndUp} {
     padding: 30px 5%;
@@ -212,13 +217,7 @@ const LogoText = styled(LogoTextIcon)`
   height: 34px;
 `;
 
-const HamburgerButton = styled.button`
-  border-radius: 50%;
-  background: white;
-  width: 40px;
-  height: 40px;
-  filter: drop-shadow(4px 4px 10px hsl(0deg 0% 0% / 0.15));
-
+const HamburgerButton = styled(HamburgerButtonOriginal)`
   @media ${QUERIES.tabledAndUp} {
     display: none;
   }
