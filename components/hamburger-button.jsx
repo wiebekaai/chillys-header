@@ -1,14 +1,16 @@
 import styled from "styled-components";
 
-const HamburgerButton = (props) => (
-  <Wrapper {...props}>
-    <UpperBun />
-    <LowerBun />
-  </Wrapper>
-);
+const HamburgerButton = (props) => {
+  const { open } = props;
+  return (
+    <Wrapper {...props}>
+      <UpperBun rotate={open} />
+      <LowerBun rotate={open} />
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.button`
-  --stroke-width: 1px;
   --bun-distance: 4px;
   --padding: 14px;
 
@@ -23,17 +25,31 @@ const Wrapper = styled.button`
 const Bun = styled.span`
   position: absolute;
   display: block;
-  height: 5%;
   width: calc(100% - calc(var(--padding) * 2));
-  border-top: var(--stroke-width) solid currentColor;
+  border-top: 1px solid currentColor;
+
+  will-change: transform;
+  transition: transform var(--transition-smooth);
 `;
 
 const UpperBun = styled(Bun)`
-  transform: translateY(calc(calc(var(--bun-distance) / 2) * -1));
+  transform: ${({ rotate }) => {
+    if (rotate) {
+      return "translateY(0) rotate(45deg)";
+    }
+
+    return "translateY(calc(calc(var(--bun-distance) / 2) * -1)) rotate(0deg)";
+  }};
 `;
 
 const LowerBun = styled(Bun)`
-  transform: translateY(calc(var(--bun-distance) / 2));
+  transform: ${({ rotate }) => {
+    if (rotate) {
+      return "translateY(0) rotate(-45deg)";
+    }
+
+    return "translateY(calc(var(--bun-distance) / 2)) rotate(0deg)";
+  }};
 `;
 
 export default HamburgerButton;

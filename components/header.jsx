@@ -28,6 +28,7 @@ const Header = () => {
   const [isScrolledPastMinimum, setIsScrolledPastMinimum] = useState(false);
   const [isScrolledUp, setIsScrolledUp] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
+  const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
   const isScrolled = isScrolledPastMinimum && isScrolledUp;
   const theme = isScrolled ? THEMES.SCROLLED : THEMES.DEFAULT;
@@ -67,7 +68,10 @@ const Header = () => {
                 { href: "/", label: "Co-brand" },
               ].map(renderLink)}
             </DesktopNav>
-            <HamburgerButton />
+            <HamburgerButton
+              open={hamburgerOpen}
+              onClick={() => setHamburgerOpen(!hamburgerOpen)}
+            />
           </Left>
           <Link href="/" passHref>
             <Logo>
@@ -105,7 +109,7 @@ const Main = styled.div`
   transform: ${({ show, theme: { shiftDown } }) => {
     if (!show) return "translateY(-100%)";
 
-    if (shiftDown) return "translateY(15px)";
+    if (shiftDown) return "translateY(25px)";
 
     return "translateY(0%)";
   }};
@@ -139,7 +143,7 @@ const Content = styled.div`
   margin: 0 auto;
 
   @media ${QUERIES.tabledAndUp} {
-    padding: 30px 5%;
+    padding: 20px 4.5%;
   }
 `;
 
@@ -163,7 +167,7 @@ const Gradient = styled.div`
 
 const TopBanner = styled.div`
   position: relative;
-  height: 33px;
+  height: 30px;
   background: linear-gradient(150deg, #e85d60, #216dfb);
   z-index: 20;
 `;
