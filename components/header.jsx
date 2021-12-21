@@ -273,6 +273,14 @@ const DesktopSearchButton = styled.button`
   justify-content: center;
   align-items: center;
 
+  transition: opacity var(--transition);
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.65;
+    }
+  }
+
   @media ${QUERIES.tabledAndUp} {
     display: flex;
   }
