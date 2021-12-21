@@ -178,7 +178,7 @@ const Search = styled(SearchIcon)`
 `;
 
 const CartNumber = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.28571;
   opacity: 0.8;

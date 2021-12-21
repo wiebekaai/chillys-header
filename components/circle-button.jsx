@@ -31,6 +31,13 @@ const Circle = styled.span`
   border-radius: 50%;
   background-color: currentColor;
   opacity: 0.1;
+  transition: opacity var(--transition);
+
+  @media (hover: hover) {
+    ${Wrapper}:hover & {
+      opacity: 0.2;
+    }
+  }
 `;
 
 export default CircleButton;
