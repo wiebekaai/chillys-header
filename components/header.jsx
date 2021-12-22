@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
 import { QUERIES } from "../styles/constants";
+import Cart from "./cart";
 import CircleButton from "./circle-button";
 import HamburgerButtonOriginal from "./hamburger-button";
 import {
@@ -29,6 +30,7 @@ const Header = () => {
   const [isScrolledUp, setIsScrolledUp] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const isScrolled = isScrolledPastMinimum && isScrolledUp;
   const theme = isScrolled ? THEMES.SCROLLED : THEMES.DEFAULT;
@@ -55,47 +57,50 @@ const Header = () => {
   );
 
   return (
-    <Wrapper>
-      <Gradient show={!isScrolledPastMinimum} />
-      <TopBanner />
-      <Main show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
-        <Content>
-          <Left>
-            <DesktopNav>
-              {[
-                { href: "/", label: "Shop" },
-                { href: "/", label: "Mission" },
-                { href: "/", label: "Co-brand" },
-              ].map(renderLink)}
-            </DesktopNav>
-            <HamburgerButton
-              open={hamburgerOpen}
-              onClick={() => setHamburgerOpen(!hamburgerOpen)}
-            />
-          </Left>
-          <Link href="/" passHref>
-            <Logo>
-              <LogoIcon />
-              <LogoText />
-            </Logo>
-          </Link>
-          <Right>
-            <DesktopNav>
-              {[{ href: "/", label: "Refer a friend" }].map(renderLink)}
-            </DesktopNav>
-            <DesktopSearchButton>
-              <DesktopSearch />
-            </DesktopSearchButton>
-            <SearchButton>
-              <Search />
-            </SearchButton>
-            <CircleButton>
-              <CartNumber>0</CartNumber>
-            </CircleButton>
-          </Right>
-        </Content>
-      </Main>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Gradient show={!isScrolledPastMinimum} />
+        <TopBanner />
+        <Main show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
+          <Content>
+            <Left>
+              <DesktopNav>
+                {[
+                  { href: "/", label: "Shop" },
+                  { href: "/", label: "Mission" },
+                  { href: "/", label: "Co-brand" },
+                ].map(renderLink)}
+              </DesktopNav>
+              <HamburgerButton
+                open={hamburgerOpen}
+                onClick={() => setHamburgerOpen(!hamburgerOpen)}
+              />
+            </Left>
+            <Link href="/" passHref>
+              <Logo>
+                <LogoIcon />
+                <LogoText />
+              </Logo>
+            </Link>
+            <Right>
+              <DesktopNav>
+                {[{ href: "/", label: "Refer a friend" }].map(renderLink)}
+              </DesktopNav>
+              <DesktopSearchButton>
+                <DesktopSearch />
+              </DesktopSearchButton>
+              <SearchButton>
+                <Search />
+              </SearchButton>
+              <CircleButton onClick={() => setIsCartOpen(true)}>
+                <CartNumber>0</CartNumber>
+              </CircleButton>
+            </Right>
+          </Content>
+        </Main>
+      </Wrapper>
+      <Cart isOpen={isCartOpen} onDismiss={() => setIsCartOpen(false)} />
+    </>
   );
 };
 
