@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const HamburgerButton = (props) => {
-  const { open } = props;
+  const { open = false } = props;
   return (
     <Wrapper {...props}>
       <UpperBun rotate={open} />
