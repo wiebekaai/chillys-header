@@ -1,20 +1,8 @@
 import styled from "styled-components";
 
-// const Sidebar = ({ children }) => {
-//   const slideFromRight = useTransition(<>{children}</>, {
-//     from: { transform: "translateX(100%)" },
-//     enter: { transform: "translateX(0%)" },
-//     leave: { transform: "translateX(100%)" },
-//   });
-
-//   return slideFromRight((style, item) => (
-//     <SWrapper style={style}>{children}</SWrapper>
-//   ));
-// };
-
-const Overlay = ({ children }) => (
-  <Wrapper $show={children}>
-    <Curtain $show={children} />
+const Overlay = ({ children, show }) => (
+  <Wrapper $show={show}>
+    <Curtain $show={show} />
     <Content>{children}</Content>
   </Wrapper>
 );
@@ -26,7 +14,6 @@ const Wrapper = styled.aside`
   width: 100%;
   height: 100%;
   visibility: ${({ $show }) => ($show ? "visible" : "hidden")};
-  isolation: isolate;
   transition-delay: ${({ $show }) => ($show ? "0s" : "0.5s")};
 `;
 
@@ -41,6 +28,7 @@ const Curtain = styled.div`
 
 const Content = styled.div`
   position: absolute;
+  display: flex;
   top: 0;
   left: 0;
   width: 100%;

@@ -12,6 +12,7 @@ import {
   LogoText as LogoTextIcon,
   Search as SearchIcon,
 } from "./icons";
+import Sidebar from "./sidebar";
 
 const THEMES = {
   DEFAULT: {
@@ -105,19 +106,21 @@ const Header = () => {
           </Content>
         </Main>
       </Wrapper>
-      <Overlay>
-        {isCartOpen && (
-          <div style={{ color: "white", padding: "50px" }}>
-            Cart content!{" "}
-            <button
-              type="button"
-              style={{ color: "white", fontWeight: "bold" }}
-              onClick={() => setIsCartOpen(false)}
-            >
-              (Close)
-            </button>
-          </div>
-        )}
+      <Overlay show={isCartOpen}>
+        <Sidebar>
+          {isCartOpen && (
+            <div style={{ padding: "50px" }}>
+              Cart content!{" "}
+              <button
+                type="button"
+                style={{ fontWeight: "bold" }}
+                onClick={() => setIsCartOpen(false)}
+              >
+                (Close)
+              </button>
+            </div>
+          )}
+        </Sidebar>
       </Overlay>
     </>
   );
