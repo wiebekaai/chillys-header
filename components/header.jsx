@@ -1,8 +1,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import styled from "styled-components";
-import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
-import useScrollLock from "../hooks/useScrollLock";
 import { QUERIES } from "../styles/constants";
 import Overlay from "./overlay";
 import CircleButton from "./circle-button";
@@ -13,6 +11,7 @@ import {
   Search as SearchIcon,
 } from "./icons";
 import Sidebar from "./sidebar";
+import useScroll from "../hooks/useScroll";
 
 const THEMES = {
   DEFAULT: {
@@ -40,12 +39,13 @@ const Header = () => {
       ? THEMES.SCROLLED
       : THEMES.DEFAULT;
 
-  useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
-    setIsScrolledPastMinimum(currentScrollTop > 3);
-    setIsScrolledUp(currentScrollTop < previousScrollTop);
-  });
-
-  useScrollLock(isCartOpen);
+  useScroll(
+    ({ previousScrollTop, currentScrollTop }) => {
+      setIsScrolledPastMinimum(currentScrollTop > 3);
+      setIsScrolledUp(currentScrollTop < previousScrollTop);
+    },
+    { lock: isCartOpen }
+  );
 
   const mouseEnter = setHoveredLink;
   const mouseLeave = () => setHoveredLink(null);
