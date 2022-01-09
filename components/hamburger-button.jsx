@@ -4,8 +4,8 @@ const HamburgerButton = (props) => {
   const { open = false } = props;
   return (
     <Wrapper {...props}>
-      <UpperBun rotate={open} />
-      <LowerBun rotate={open} />
+      <UpperBun $rotate={open} />
+      <LowerBun $rotate={open} />
     </Wrapper>
   );
 };
@@ -33,8 +33,8 @@ const Bun = styled.span`
 `;
 
 const UpperBun = styled(Bun)`
-  transform: ${({ rotate }) => {
-    if (rotate) {
+  transform: ${({ $rotate }) => {
+    if ($rotate) {
       return "translateY(0) rotate(45deg)";
     }
 
@@ -43,8 +43,8 @@ const UpperBun = styled(Bun)`
 `;
 
 const LowerBun = styled(Bun)`
-  transform: ${({ rotate }) => {
-    if (rotate) {
+  transform: ${({ $rotate }) => {
+    if ($rotate) {
       return "translateY(0) rotate(-45deg)";
     }
 

@@ -2,8 +2,9 @@ import Link from "next/link";
 import React, { useState } from "react";
 import styled from "styled-components";
 import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
+import useScrollLock from "../hooks/useScrollLock";
 import { QUERIES } from "../styles/constants";
-import Cart from "./cart";
+import Overlay from "./overlay";
 import CircleButton from "./circle-button";
 import HamburgerButtonOriginal from "./hamburger-button";
 import {
@@ -33,12 +34,17 @@ const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const isScrolled = isScrolledPastMinimum && isScrolledUp;
-  const theme = isScrolled ? THEMES.SCROLLED : THEMES.DEFAULT;
+  const theme =
+    isScrolled || (isCartOpen && isScrolledPastMinimum)
+      ? THEMES.SCROLLED
+      : THEMES.DEFAULT;
 
   useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
     setIsScrolledPastMinimum(currentScrollTop > 3);
     setIsScrolledUp(currentScrollTop < previousScrollTop);
   });
+
+  useScrollLock(isCartOpen);
 
   const mouseEnter = setHoveredLink;
   const mouseLeave = () => setHoveredLink(null);
@@ -99,13 +105,27 @@ const Header = () => {
           </Content>
         </Main>
       </Wrapper>
-      <Cart isOpen={isCartOpen} onDismiss={() => setIsCartOpen(false)} />
+      <Overlay>
+        {isCartOpen && (
+          <div style={{ color: "white", padding: "50px" }}>
+            Cart content!{" "}
+            <button
+              type="button"
+              style={{ color: "white", fontWeight: "bold" }}
+              onClick={() => setIsCartOpen(false)}
+            >
+              (Close)
+            </button>
+          </div>
+        )}
+      </Overlay>
     </>
   );
 };
 
 const Wrapper = styled.header`
   position: fixed;
+  top: 0;
   width: 100%;
   isolation: isolate;
 `;

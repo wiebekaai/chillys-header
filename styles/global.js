@@ -11,6 +11,14 @@ const global = css`
 
     font-family: var(--font-modern-era);
   }
+
+  body {
+    overflow-y: scroll;
+
+    &.scroll-lock {
+      position: fixed;
+    }
+  }
 `;
 
 export default global;
