@@ -39,6 +39,7 @@ const reset = css`
   textarea,
   select {
     font: inherit;
+    color: inherit;
   }
 
   button {

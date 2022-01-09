@@ -25,7 +25,7 @@ const Wrapper = styled.button`
 const Bun = styled.span`
   position: absolute;
   display: block;
-  width: calc(100% - calc(var(--padding) * 2));
+  width: calc(40px - calc(var(--padding) * 2));
   border-top: 1px solid currentColor;
 
   will-change: transform;

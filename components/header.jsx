@@ -250,6 +250,8 @@ const LogoText = styled(LogoTextIcon)`
 `;
 
 const HamburgerButton = styled(HamburgerButtonOriginal)`
+  color: black;
+
   @media ${QUERIES.tabledAndUp} {
     display: none;
   }
