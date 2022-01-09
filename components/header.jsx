@@ -55,8 +55,8 @@ const Header = () => {
       <DesktopNavLink
         onMouseLeave={mouseLeave}
         onMouseEnter={() => mouseEnter(label)}
-        hover={hoveredLink !== null}
-        hoverActive={hoveredLink === label}
+        $hover={hoveredLink !== null}
+        $hoverActive={hoveredLink === label}
       >
         {label}
       </DesktopNavLink>
@@ -68,7 +68,7 @@ const Header = () => {
       <Wrapper>
         <Gradient show={!isScrolledPastMinimum} />
         <TopBanner />
-        <Main show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
+        <Main $show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
           <Content>
             <Left>
               <DesktopNav>
@@ -134,8 +134,8 @@ const Wrapper = styled.header`
 `;
 
 const Main = styled.div`
-  transform: ${({ show, theme: { shiftDown } }) => {
-    if (!show) return "translateY(-100%)";
+  transform: ${({ $show, theme: { shiftDown } }) => {
+    if (!$show) return "translateY(-100%)";
 
     if (shiftDown) return "translateY(25px)";
 
@@ -155,7 +155,6 @@ const Main = styled.div`
     transition: opacity var(--transition);
   }
 
-  z-index: 10;
   background-color: ${({ theme: { background } }) => background};
   will-change: transform;
   transition: transform var(--transition-smooth),
@@ -183,7 +182,6 @@ const Gradient = styled.div`
   height: 200%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.45), transparent);
   pointer-events: none;
-  z-index: 0;
 
   opacity: ${({ show }) => (show ? 1 : 0)};
   visibility: ${({ show }) => (show ? "visible" : "hidden")};
@@ -197,7 +195,7 @@ const TopBanner = styled.div`
   position: relative;
   height: 30px;
   background: linear-gradient(150deg, #e85d60, #216dfb);
-  z-index: 20;
+  z-index: 10;
 `;
 
 const Search = styled(SearchIcon)`
@@ -285,7 +283,7 @@ const DesktopNavLink = styled.a`
   color: inherit;
   text-decoration: none;
 
-  opacity: ${({ hover, hoverActive }) => (hover && !hoverActive ? 0.3 : 1)};
+  opacity: ${({ $hover, $hoverActive }) => ($hover && !$hoverActive ? 0.3 : 1)};
 
   will-change: opacity;
   transition: opacity var(--transition);

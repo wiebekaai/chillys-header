@@ -17,6 +17,7 @@ const global = css`
 
     &.scroll-lock {
       position: fixed;
+      overflow: hidden;
     }
   }
 `;
