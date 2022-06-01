@@ -2,16 +2,14 @@ import Link from "next/link";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { QUERIES } from "../styles/constants";
-import Overlay from "./overlay";
 import CircleButton from "./circle-button";
 import HamburgerButtonOriginal from "./hamburger-button";
+import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
 import {
   LogoIcon as LogoIconBase,
   LogoText as LogoTextIcon,
   Search as SearchIcon,
 } from "./icons";
-import Sidebar from "./sidebar";
-import useScroll from "../hooks/useScroll";
 
 const THEMES = {
   DEFAULT: {
@@ -31,21 +29,15 @@ const Header = () => {
   const [isScrolledUp, setIsScrolledUp] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const isScrolled = isScrolledPastMinimum && isScrolledUp;
   const theme =
-    isScrolled || (isCartOpen && isScrolledPastMinimum)
-      ? THEMES.SCROLLED
-      : THEMES.DEFAULT;
+    isScrolled || isScrolledPastMinimum ? THEMES.SCROLLED : THEMES.DEFAULT;
 
-  useScroll(
-    ({ previousScrollTop, currentScrollTop }) => {
-      setIsScrolledPastMinimum(currentScrollTop > 3);
-      setIsScrolledUp(currentScrollTop < previousScrollTop);
-    },
-    { lock: isCartOpen }
-  );
+  useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
+    setIsScrolledPastMinimum(currentScrollTop > 3);
+    setIsScrolledUp(currentScrollTop < previousScrollTop);
+  });
 
   const mouseEnter = setHoveredLink;
   const mouseLeave = () => setHoveredLink(null);
@@ -99,35 +91,13 @@ const Header = () => {
               <SearchButton>
                 <Search />
               </SearchButton>
-              <CircleButton onClick={() => setIsCartOpen(true)}>
+              <CircleButton>
                 <CartNumber>0</CartNumber>
               </CircleButton>
             </Right>
           </Content>
         </Main>
       </Wrapper>
-      <Overlay show={isCartOpen} onClose={() => setIsCartOpen(false)}>
-        <Sidebar>
-          {isCartOpen && (
-            <div
-              style={{
-                padding: "50px",
-                height: "100%",
-                overflowY: "auto",
-              }}
-            >
-              Cart content!{" "}
-              <button
-                type="button"
-                style={{ fontWeight: "bold" }}
-                onClick={() => setIsCartOpen(false)}
-              >
-                (Close)
-              </button>
-            </div>
-          )}
-        </Sidebar>
-      </Overlay>
     </>
   );
 };
