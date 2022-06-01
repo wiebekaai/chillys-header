@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react/cjs/react.development";
+import { useEffect, useState } from "react";
 import useDocumentScrollThrottled from "./useDocumentScrollThrottled";
 import useScrollLock from "./useScrollLock";
 
