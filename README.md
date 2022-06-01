@@ -1,34 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+I got inspired and remade of the header on the [Chilly's](https://www.chillys.com) website. The website looks great and is has a lot of micro-animations without being overwhelming.
 
-## Getting Started
+# 🧐 Takeaways
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- CSS transitions are awesome, most UI animations don't require fancy JS libraries.
+- Coloring SVGs with `currentColor` allows for an easy color transition with CSS.
+- Besides box-shadow you can use [drop shadows](https://developer.mozilla.org/en-US/docs/Web/CSS/filter-function/drop-shadow) and [gradient elements](/components/header.jsx#L184) to add depth to your frontend.
+- It was interesting to try `styled-components` and see how it uses props to create variations. I do think it's very verbose in comparison to `TailwindCSS` and I don't like the need to come up for names for every single styled HTML tag. This could be avoided by targeting child elements, but then you need to go back and forth in your code to make sure you add the right child tags.

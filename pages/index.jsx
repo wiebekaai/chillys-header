@@ -1,5 +1,7 @@
+import Image from "next/image";
 import styled from "styled-components";
 import Header from "../components/header";
+import { QUERIES } from "../styles/constants";
 
 const BigContent = styled.main`
   height: 3000px;
@@ -11,31 +13,40 @@ export default function Home() {
       <Header />
       <BigContent id="content">
         {/* Copy pasted image from original */}
-        <picture>
-          <source
-            srcSet="https://www.datocms-assets.com/11645/1639151996-sportbannereng9x16.png?q=80&amp;auto=format&amp;dpr=1&amp;w=400&amp;fit=crop 400w,
-                https://www.datocms-assets.com/11645/1639151996-sportbannereng9x16.png?q=80&amp;auto=format&amp;dpr=1&amp;w=600&amp;fit=crop 600w,
-                https://www.datocms-assets.com/11645/1639151996-sportbannereng9x16.png?q=80&amp;auto=format&amp;dpr=1&amp;w=799&amp;fit=crop 799w,
-                https://www.datocms-assets.com/11645/1639151996-sportbannereng9x16.png?q=80&amp;auto=format&amp;dpr=1&amp;w=1200&amp;fit=crop 1200w,
-                https://www.datocms-assets.com/11645/1639151996-sportbannereng9x16.png?q=80&amp;auto=format&amp;dpr=1&amp;w=1600&amp;fit=crop 1600w,
-                https://www.datocms-assets.com/11645/1639151996-sportbannereng9x16.png?q=80&amp;auto=format&amp;dpr=1&amp;w=2000&amp;fit=crop 2000w"
-            media="(orientation: portrait)"
-            sizes="100vw"
+        <MobileImageWrapper>
+          <MobileImageWrapper
+            width={1080}
+            height={1920}
+            src="/images/portrait.png"
+            layout="responsive"
           />
-          <source
-            srcSet="https://www.datocms-assets.com/11645/1639139605-sportbannereng16x9.png?q=80&amp;auto=format&amp;dpr=1&amp;w=1200&amp;fit=crop 1200w,
-                https://www.datocms-assets.com/11645/1639139605-sportbannereng16x9.png?q=80&amp;auto=format&amp;dpr=1&amp;w=1600&amp;fit=crop 1600w,
-                https://www.datocms-assets.com/11645/1639139605-sportbannereng16x9.png?q=80&amp;auto=format&amp;dpr=1&amp;w=2000&amp;fit=crop 2000w,
-                https://www.datocms-assets.com/11645/1639139605-sportbannereng16x9.png?q=80&amp;auto=format&amp;dpr=1&amp;w=2400&amp;fit=crop 2400w"
-            media="(orientation: landscape)"
-            sizes="100vw"
+        </MobileImageWrapper>
+        <TabletImageWrapper>
+          <Image
+            width={1920}
+            height={1080}
+            src="/images/landscape.png"
+            layout="responsive"
           />
-          <img
-            alt="Sports Lids"
-            src="https://www.datocms-assets.com/11645/1639139605-sportbannereng16x9.png?q=80&amp;auto=format&amp;dpr=1&amp;w=1600&amp;fit=crop"
-          />
-        </picture>
+        </TabletImageWrapper>
       </BigContent>
     </>
   );
 }
+
+const MobileImageWrapper = styled.div`
+  position: relative;
+
+  @media ${QUERIES.tabledAndUp} {
+    display: none;
+  }
+`;
+
+const TabletImageWrapper = styled.div`
+  position: relative;
+  display: none;
+
+  @media ${QUERIES.tabledAndUp} {
+    display: block;
+  }
+`;

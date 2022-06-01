@@ -65,7 +65,7 @@ const Header = () => {
 
   return (
     <>
-      <Wrapper id="god">
+      <Wrapper>
         <Gradient show={!isScrolledPastMinimum} />
         <TopBanner />
         <Main $show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
@@ -137,6 +137,7 @@ const Wrapper = styled.header`
   top: 0;
   width: 100%;
   isolation: isolate;
+  z-index: 10;
 `;
 
 const Main = styled.div`
