@@ -9,7 +9,8 @@ export default function Home() {
   return (
     <>
       <Header />
-      <BigContent>
+      <BigContent id="content">
+        {/* Copy pasted image from original */}
         <picture>
           <source
             srcSet="https://www.datocms-assets.com/11645/1639151996-sportbannereng9x16.png?q=80&amp;auto=format&amp;dpr=1&amp;w=400&amp;fit=crop 400w,

@@ -65,7 +65,7 @@ const Header = () => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper id="god">
         <Gradient show={!isScrolledPastMinimum} />
         <TopBanner />
         <Main $show={!isScrolledPastMinimum || isScrolledUp} theme={theme}>
@@ -106,10 +106,16 @@ const Header = () => {
           </Content>
         </Main>
       </Wrapper>
-      <Overlay show={isCartOpen}>
+      <Overlay show={isCartOpen} onClose={() => setIsCartOpen(false)}>
         <Sidebar>
           {isCartOpen && (
-            <div style={{ padding: "50px" }}>
+            <div
+              style={{
+                padding: "50px",
+                height: "100%",
+                overflowY: "auto",
+              }}
+            >
               Cart content!{" "}
               <button
                 type="button"

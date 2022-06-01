@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-const Overlay = ({ children, show }) => (
+const Overlay = ({ children, onClose, show }) => (
   <Wrapper $show={show}>
-    <Curtain $show={show} />
+    <Curtain onClick={() => onClose()} $show={show} />
     <Content>{children}</Content>
   </Wrapper>
 );
@@ -34,6 +34,11 @@ const Content = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
 `;
 
 export default Overlay;

@@ -12,13 +12,9 @@ const global = css`
     font-family: var(--font-modern-era);
   }
 
-  body {
-    overflow-y: scroll;
-
-    &.scroll-lock {
-      position: fixed;
-      overflow: hidden;
-    }
+  body.scroll-lock {
+    position: absolute;
+    overflow: hidden;
   }
 `;
 
