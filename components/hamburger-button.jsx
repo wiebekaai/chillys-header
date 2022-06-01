@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const HamburgerButton = (props) => {
   const { open = false } = props;
@@ -35,20 +35,20 @@ const Bun = styled.span`
 const UpperBun = styled(Bun)`
   transform: ${({ $rotate }) => {
     if ($rotate) {
-      return "translateY(0) rotate(45deg)";
+      return 'translateY(0) rotate(45deg)';
     }
 
-    return "translateY(calc(calc(var(--bun-distance) / 2) * -1)) rotate(0deg)";
+    return 'translateY(calc(calc(var(--bun-distance) / 2) * -1)) rotate(0deg)';
   }};
 `;
 
 const LowerBun = styled(Bun)`
   transform: ${({ $rotate }) => {
     if ($rotate) {
-      return "translateY(0) rotate(-45deg)";
+      return 'translateY(0) rotate(-45deg)';
     }
 
-    return "translateY(calc(var(--bun-distance) / 2)) rotate(0deg)";
+    return 'translateY(calc(var(--bun-distance) / 2)) rotate(0deg)';
   }};
 `;
 

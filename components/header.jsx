@@ -1,25 +1,21 @@
-import Link from "next/link";
-import React, { useState } from "react";
-import styled from "styled-components";
-import { QUERIES } from "../styles/constants";
-import CircleButton from "./circle-button";
-import HamburgerButtonOriginal from "./hamburger-button";
-import useDocumentScrollThrottled from "../hooks/useDocumentScrollThrottled";
-import {
-  LogoIcon as LogoIconBase,
-  LogoText as LogoTextIcon,
-  Search as SearchIcon,
-} from "./icons";
+import Link from 'next/link';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { QUERIES } from '../styles/constants';
+import CircleButton from './circle-button';
+import HamburgerButtonOriginal from './hamburger-button';
+import useDocumentScrollThrottled from '../hooks/useDocumentScrollThrottled';
+import { LogoIcon as LogoIconBase, LogoText as LogoTextIcon, Search as SearchIcon } from './icons';
 
 const THEMES = {
   DEFAULT: {
-    background: "none",
-    color: "white",
+    background: 'none',
+    color: 'white',
     shiftDown: true,
   },
   SCROLLED: {
-    background: "#fff",
-    color: "#000",
+    background: '#fff',
+    color: '#000',
     borderBottom: true,
   },
 };
@@ -31,8 +27,7 @@ const Header = () => {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
   const isScrolled = isScrolledPastMinimum && isScrolledUp;
-  const theme =
-    isScrolled || isScrolledPastMinimum ? THEMES.SCROLLED : THEMES.DEFAULT;
+  const theme = isScrolled || isScrolledPastMinimum ? THEMES.SCROLLED : THEMES.DEFAULT;
 
   useDocumentScrollThrottled(({ previousScrollTop, currentScrollTop }) => {
     setIsScrolledPastMinimum(currentScrollTop > 3);
@@ -65,15 +60,12 @@ const Header = () => {
             <Left>
               <DesktopNav>
                 {[
-                  { href: "/", label: "Shop" },
-                  { href: "/", label: "Mission" },
-                  { href: "/", label: "Co-brand" },
+                  { href: '/', label: 'Shop' },
+                  { href: '/', label: 'Mission' },
+                  { href: '/', label: 'Co-brand' },
                 ].map(renderLink)}
               </DesktopNav>
-              <HamburgerButton
-                open={hamburgerOpen}
-                onClick={() => setHamburgerOpen(!hamburgerOpen)}
-              />
+              <HamburgerButton open={hamburgerOpen} onClick={() => setHamburgerOpen(!hamburgerOpen)} />
             </Left>
             <Link href="/" passHref>
               <Logo>
@@ -82,9 +74,7 @@ const Header = () => {
               </Logo>
             </Link>
             <Right>
-              <DesktopNav>
-                {[{ href: "/", label: "Refer a friend" }].map(renderLink)}
-              </DesktopNav>
+              <DesktopNav>{[{ href: '/', label: 'Refer a friend' }].map(renderLink)}</DesktopNav>
               <DesktopSearchButton>
                 <DesktopSearch />
               </DesktopSearchButton>
@@ -112,30 +102,29 @@ const Wrapper = styled.header`
 
 const Main = styled.div`
   transform: ${({ $show, theme: { shiftDown } }) => {
-    if (!$show) return "translateY(-100%)";
+    if (!$show) return 'translateY(-100%)';
 
-    if (shiftDown) return "translateY(25px)";
+    if (shiftDown) return 'translateY(25px)';
 
-    return "translateY(0%)";
+    return 'translateY(0%)';
   }};
 
   /** Transitioned border-bottom */
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
     height: 1px;
-    opacity: ${({ theme: { borderBottom } }) => (borderBottom ? "0.1" : "0")};
+    opacity: ${({ theme: { borderBottom } }) => (borderBottom ? '0.1' : '0')};
     background-color: currentColor;
     transition: opacity var(--transition);
   }
 
   background-color: ${({ theme: { background } }) => background};
   will-change: transform;
-  transition: transform var(--transition-smooth),
-    background-color var(--transition), color var(--transition);
+  transition: transform var(--transition-smooth), background-color var(--transition), color var(--transition);
   color: ${({ theme: { color } }) => color};
 `;
 
@@ -161,11 +150,10 @@ const Gradient = styled.div`
   pointer-events: none;
 
   opacity: ${({ show }) => (show ? 1 : 0)};
-  visibility: ${({ show }) => (show ? "visible" : "hidden")};
+  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
 
   will-change: opacity;
-  transition: opacity var(--transition-smooth),
-    visibility var(--transition-smooth);
+  transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
 `;
 
 const TopBanner = styled.div`
